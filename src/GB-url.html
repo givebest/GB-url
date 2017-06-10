@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>GB-url</title>
+  <meta name="description" content="">
+  <script src="js/GB-url.js"></script>
+</head>
+<body>
+
+  <h1>GB-url</h1>
+
+  <script>
+    var url = 'a.html?a=1&b=2&c=3';
+    console.log(gbUrl.queryParam('a', url));  // 1
+    console.log(gbUrl.queryParam('b', url));  // 2
+
+    var params1 = gbUrl.setParams({
+      a: '11111'
+    }, url);
+    console.log(params1);   // "?a=11111&b=2&c=3"
+
+    var params2 = gbUrl.setParams({
+      b: '2222',
+      c: '3333',
+      d: '4444'
+    }, url);  
+    console.log(params2);  // "?a=1&b=2222&c=3333&d=4444"
+  </script>
+
+</body>
+
+</html>
