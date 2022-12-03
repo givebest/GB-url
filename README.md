@@ -14,8 +14,9 @@
 ```js
 import gbUrl from './GB-url-ES6'
 
-gbUrl.queryParam()
-gbUrl.setParams()
+var url = 'a.html?a=1&b=2&c=3'
+gbUrl.queryParam('a', url) // 1
+gbUrl.queryParam('b', url) // 2
 ```
 
 ### 获取 URL 参数值
