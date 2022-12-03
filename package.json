@@ -1,7 +1,7 @@
 {
   "name": "gb-url",
   "description": "Parsing or setting url search parameters",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "files": [
     "dist",
