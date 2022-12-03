@@ -2,42 +2,52 @@
  * GB-url.js
  * @see https://github.com/givebest/GB-url
  * @author givenlovs[at]msn.com
- * @(c) 2021
+ * @(c) 2022
  **/
+
+export type Params = Record<string, string>
+
 /**
  * 获取 url 参数值
- * @param  {[type]} key [description]
- * @param  {[type]} url [description]
- * @return {[type]}     [description]
  */
-function queryParam(key, url) {
+function queryParam(key: string, url?: string) {
   url = url || window.location.href
-  var reg = new RegExp('[?&#]' + key + '=([^&#]*)', 'i'),
+  const reg = new RegExp('[?&#]' + key + '=([^&#]*)', 'i'),
     match = url.match(reg)
   if (match) {
     try {
       return decodeURIComponent(match[1]) || ''
-    } catch (e) {}
+    } catch (e) {
+      return ''
+    }
   }
   return ''
 }
 
 /**
  * [urlQuery description]
- * @param  {[type]} uri [description]
- * @return {[type]}     [description]
  */
-function urlQuery(uri) {
-  uri = !uri ? window.location : uri
-  var url = typeof uri === 'object' ? uri.href : uri
-  var uriQuery = uri.search
-  if (url.indexOf('?') < 0 || (!uriQuery && typeof uriQuery !== 'function')) {
+function urlQuery(uri: string) {
+  const windowLocation = window.location
+  const url: string = uri ? uri : windowLocation.href
+
+  let uriQuery: any = uri.search
+
+  if (
+    !url ||
+    url.indexOf('?') < 0 ||
+    (!uriQuery && typeof uriQuery !== 'function')
+  ) {
     return ''
   }
+
+  let urlMatch: RegExpMatchArray | null = url.match(/(.*?)\?(.*)/)
+  let uriQueryMatch: RegExpMatchArray | null =
+    uriQuery && uriQuery.match(/^\?(.*)/)[1]
+
   uriQuery =
-    typeof uriQuery === 'function'
-      ? url.match(/(.*?)\?(.*)/)[2]
-      : uriQuery.match(/^\?(.*)/)[1]
+    typeof uriQuery === 'function' ? urlMatch && urlMatch : uriQueryMatch
+
   uriQuery =
     uriQuery.indexOf('#') > -1 ? uriQuery.match(/(.*?)#(.*)/)[1] : uriQuery
   return uriQuery
@@ -45,27 +55,27 @@ function urlQuery(uri) {
 
 /**
  * 获取URL参数组装成JSON
- * @param  {[type]} url [description]
- * @return {[type]}     [description]
  */
-function getAllParams(url) {
+function getAllParams(url: string) {
   url = url || window.location.href
-  var s = urlQuery(url) || '',
-    map = {}
+  let s = urlQuery(url) || '',
+    map: Params = {}
   //console.log(s)
-  s.replace(/([^&]*?)\=(.*?)(&|$)/gi, function(a, key, value) {
-    map[key] = value
-  })
+  s.replace(
+    /([^&]*?)\=(.*?)(&|$)/gi,
+    function (a: string, key: string, value: string) {
+      console.log('a', a)
+      map[key] = value
+    }
+  )
   //console.log(map);
   return map
 }
 
 /**
  * 解析JSON为URL
- * @param  {[type]} json [description]
- * @return {[type]}      [description]
  */
-function serializer(json) {
+function serializer(json: Params) {
   json = json || {}
   var str = []
   for (var key in json) {
@@ -76,10 +86,8 @@ function serializer(json) {
 
 /**
  * 设置URL参数
- * @param {[type]} params [description]
- * @param {[type]} url    [description]
  */
-function setParams(params, url) {
+function setParams(params: Params, url: string) {
   params = params || {}
   url = url || window.location.href
   var oriParams = getAllParams(url)
@@ -95,9 +103,4 @@ function setParams(params, url) {
   return url.split('?')[0] + (query ? '?' + query : '')
 }
 
-var gbUrl = {
-  setParams: setParams,
-  queryParam: queryParam,
-}
-
-export default gbUrl
+export { setParams, queryParam }
