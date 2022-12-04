@@ -9,10 +9,12 @@
 
 ## 使用
 
-### ES6
+```bash
+npm i gb-url
+```
 
 ```js
-import { setParams, queryParam } from './gburl'
+import { setParams, queryParam } from "gb-url";
 ```
 
 ### 获取 URL 参数值
@@ -24,9 +26,9 @@ import { setParams, queryParam } from './gburl'
  * @param  url [要解析的 URL 或者 符合规则的字符串，默认为 window.location.href]
  **/
 
-var url = 'a.html?a=1&b=2&c=3'
-gbUrl.queryParam('a', url) // 1
-gbUrl.queryParam('b', url) // 2
+var url = "a.html?a=1&b=2&c=3";
+gbUrl.queryParam("a", url); // 1
+gbUrl.queryParam("b", url); // 2
 ```
 
 ### 设置、赋值 URL 参数
@@ -38,22 +40,22 @@ gbUrl.queryParam('b', url) // 2
  * @param  url [要解析的 URL 或者 符合规则的字符串，默认为 window.location.href]
  **/
 
-var url = 'a.html?a=1&b=2&c=3'
+var url = "a.html?a=1&b=2&c=3";
 gbUrl.setParams(
   {
-    a: '11111',
+    a: "11111",
   },
   url
-) // "a.html?a=11111&b=2&c=3"
+); // "a.html?a=11111&b=2&c=3"
 
 gbUrl.setParams(
   {
-    b: '2222',
-    c: '3333',
-    d: '4444',
+    b: "2222",
+    c: "3333",
+    d: "4444",
   },
   url
-) // "a.html?a=1&b=2222&c=3333&d=4444"
+); // "a.html?a=1&b=2222&c=3333&d=4444"
 ```
 
 ## License
