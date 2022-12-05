@@ -1,20 +1,30 @@
 {
   "name": "gb-url",
   "description": "Parsing or setting url search parameters",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "type": "module",
+  "license": "MIT",
+  "author": "givebest",
   "files": [
     "dist",
     "index.d.ts"
   ],
-  "main": "./dist/counter.umd.cjs",
-  "module": "./dist/counter.js",
+  "main": "./dist/gburl.umd.cjs",
+  "module": "./dist/gburl.js",
   "types": "./index.d.ts",
   "exports": {
     "types": "./index.d.ts",
-    "import": "./dist/counter.js",
-    "require": "./dist/counter.umd.cjs"
+    "import": "./dist/gburl.js",
+    "require": "./dist/gburl.umd.cjs"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/givebest/GB-url.git"
+  },
+  "bugs": {
+    "url": "https://github.com/givebest/GB-url/issues"
+  },
+  "homepage": "https://github.com/givebest/GB-url/main/#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build"
@@ -22,6 +32,5 @@
   "devDependencies": {
     "typescript": "^4.9.3",
     "vite": "^3.2.3"
-  },
-  "license": "MIT"
+  }
 }
