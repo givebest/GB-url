@@ -10,10 +10,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - run: npm install
-      - run: npm run build
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.NPM_TOKEN }}
+      - run: npm i
+      - run: npm build
       - run: npm publish || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
 
 
