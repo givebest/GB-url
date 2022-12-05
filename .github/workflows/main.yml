@@ -3,14 +3,14 @@ on:
     branches:
     - main
     - release/*
-  
+
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: 'https://registry.npmjs.org'
@@ -18,13 +18,9 @@ jobs:
       - run: |
           npm install
           npm run build
-          
-          
-      - name: 'Publish to the npm registry'
-        uses: primer/publish@3.0.0
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        with:
-          default_branch: 'main'
-      
-    
+          npm publish
+
+      env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+
