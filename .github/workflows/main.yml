@@ -13,7 +13,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           deploy_key: ${{ secrets.NPM_TOKEN }}
       - run: npm i
-      - run: npm build
+      - run: npm run build
       - run: npm publish || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
