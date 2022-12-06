@@ -2,6 +2,8 @@
 
 解析、设置 url search 参数。
 
+简体中文 | [English](./README.md)
+
 ---
 
 ## 简介
