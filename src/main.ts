@@ -4,17 +4,21 @@
  * @author givenlovs[at]msn.com
  * @(c) 2022
  **/
+export type Params = Record<string, string>;
+type LocationHref = () => string;
 
 const isBrowser = typeof window !== "undefined";
 const global = typeof globalThis !== "undefined" ? globalThis : window;
 
-export type Params = Record<string, string>;
+const locationHref: LocationHref = () => {
+  return isBrowser ? global.location.href : "";
+};
 
 /**
  * 获取 url 参数值
  */
 function queryParam(key: string, url?: string) {
-  url = url || isBrowser ? global.location.href : "";
+  url = url || locationHref();
   const reg = new RegExp("[?&#]" + key + "=([^&#]*)", "i"),
     match = url.match(reg);
   if (match) {
@@ -30,10 +34,13 @@ function queryParam(key: string, url?: string) {
 /**
  * [urlQuery description]
  */
-function urlQuery(uri: string) {
-  const url: string = uri ? uri : isBrowser ? global.location.href : "";
+function urlQuery(uri: any) {
+  // const url: string = uri ? uri : locationHref();
+  uri = !uri ? (isBrowser ? global.location : "") : uri;
 
-  let uriQuery: any = uri.search;
+  const url = typeof uri === "object" ? locationHref() : uri;
+
+  let uriQuery: any = isBrowser ? uri.search : "";
 
   if (
     !url ||
@@ -43,12 +50,17 @@ function urlQuery(uri: string) {
     return "";
   }
 
+  console.log("uriQuery", uriQuery, typeof uriQuery);
+
   let urlMatch: RegExpMatchArray | null = url.match(/(.*?)\?(.*)/);
+
   let uriQueryMatch: RegExpMatchArray | null =
     uriQuery && uriQuery.match(/^\?(.*)/)[1];
 
   uriQuery =
     typeof uriQuery === "function" ? urlMatch && urlMatch : uriQueryMatch;
+
+  console.log("uriQuery2", uriQuery, typeof uriQuery);
 
   uriQuery =
     uriQuery.indexOf("#") > -1 ? uriQuery.match(/(.*?)#(.*)/)[1] : uriQuery;
@@ -59,7 +71,7 @@ function urlQuery(uri: string) {
  * 获取URL参数组装成JSON
  */
 function getAllParams(url: string) {
-  url = url || isBrowser ? global.location.href : "";
+  url = url || locationHref();
   let s = urlQuery(url) || "",
     map: Params = {};
   //console.log(s)
@@ -91,7 +103,7 @@ function serializer(json: Params) {
  */
 function setParams(params: Params, url: string) {
   params = params || {};
-  url = url || isBrowser ? global.location.href : "";
+  url = url || locationHref();
   var oriParams = getAllParams(url);
   var query;
   for (var key in params) {
