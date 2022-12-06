@@ -6,6 +6,7 @@
  **/
 
 const isBrowser = typeof window !== "undefined";
+const global = typeof globalThis !== "undefined" ? globalThis : window;
 
 export type Params = Record<string, string>;
 
@@ -13,7 +14,7 @@ export type Params = Record<string, string>;
  * 获取 url 参数值
  */
 function queryParam(key: string, url?: string) {
-  url = url || isBrowser ? window.location.href : "";
+  url = url || isBrowser ? global.location.href : "";
   const reg = new RegExp("[?&#]" + key + "=([^&#]*)", "i"),
     match = url.match(reg);
   if (match) {
@@ -30,7 +31,7 @@ function queryParam(key: string, url?: string) {
  * [urlQuery description]
  */
 function urlQuery(uri: string) {
-  const url: string = uri ? uri : isBrowser ? window.location.href : "";
+  const url: string = uri ? uri : isBrowser ? global.location.href : "";
 
   let uriQuery: any = uri.search;
 
@@ -58,7 +59,7 @@ function urlQuery(uri: string) {
  * 获取URL参数组装成JSON
  */
 function getAllParams(url: string) {
-  url = url || isBrowser ? window.location.href : "";
+  url = url || isBrowser ? global.location.href : "";
   let s = urlQuery(url) || "",
     map: Params = {};
   //console.log(s)
@@ -90,7 +91,7 @@ function serializer(json: Params) {
  */
 function setParams(params: Params, url: string) {
   params = params || {};
-  url = url || isBrowser ? window.location.href : "";
+  url = url || isBrowser ? global.location.href : "";
   var oriParams = getAllParams(url);
   var query;
   for (var key in params) {
