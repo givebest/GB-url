@@ -1,47 +1,48 @@
-function u(t, e) {
-  e = e || window.location.href;
-  const r = new RegExp("[?&#]" + t + "=([^&#]*)", "i"), n = e.match(r);
-  if (n)
+const i = typeof window < "u";
+function h(n, e) {
+  e = e || i ? window.location.href : "";
+  const t = new RegExp("[?&#]" + n + "=([^&#]*)", "i"), r = e.match(t);
+  if (r)
     try {
-      return decodeURIComponent(n[1]) || "";
+      return decodeURIComponent(r[1]) || "";
     } catch {
       return "";
     }
   return "";
 }
-function c(t) {
-  const e = window.location, r = t || e.href;
-  let n = t.search;
-  if (!r || r.indexOf("?") < 0 || !n && typeof n != "function")
+function f(n) {
+  const e = n || (i ? window.location.href : "");
+  let t = n.search;
+  if (!e || e.indexOf("?") < 0 || !t && typeof t != "function")
     return "";
-  let o = r.match(/(.*?)\?(.*)/), i = n && n.match(/^\?(.*)/)[1];
-  return n = typeof n == "function" ? o && o : i, n = n.indexOf("#") > -1 ? n.match(/(.*?)#(.*)/)[1] : n, n;
+  let r = e.match(/(.*?)\?(.*)/), o = t && t.match(/^\?(.*)/)[1];
+  return t = typeof t == "function" ? r && r : o, t = t.indexOf("#") > -1 ? t.match(/(.*?)#(.*)/)[1] : t, t;
 }
-function a(t) {
-  t = t || window.location.href;
-  let e = c(t) || "", r = {};
+function a(n) {
+  n = n || i ? window.location.href : "";
+  let e = f(n) || "", t = {};
   return e.replace(
     /([^&]*?)\=(.*?)(&|$)/gi,
-    function(n, o, i) {
-      console.log("a", n), r[o] = i;
+    function(r, o, c) {
+      console.log("a", r), t[o] = c;
     }
-  ), r;
+  ), t;
 }
-function f(t) {
-  t = t || {};
+function u(n) {
+  n = n || {};
   var e = [];
-  for (var r in t)
-    t[r] && e.push(r + "=" + t[r]);
+  for (var t in n)
+    n[t] && e.push(t + "=" + n[t]);
   return e.join("&");
 }
-function h(t, e) {
-  t = t || {}, e = e || window.location.href;
-  var r = a(e), n;
-  for (var o in t)
-    t[o] && (r[o] = t[o]);
-  return n = f(r), e.split("?")[0] + (n ? "?" + n : "");
+function w(n, e) {
+  n = n || {}, e = e || i ? window.location.href : "";
+  var t = a(e), r;
+  for (var o in n)
+    n[o] && (t[o] = n[o]);
+  return r = u(t), e.split("?")[0] + (r ? "?" + r : "");
 }
 export {
-  u as queryParam,
-  h as setParams
+  h as queryParam,
+  w as setParams
 };
