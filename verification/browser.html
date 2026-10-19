@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><title>GB-url compatibility verification</title>
+<h1>GB-url compatibility verification</h1><pre id="result">Running…</pre>
+<script type="module">
+import * as baseline from './baseline-gburl.js';
+import * as built from '../dist/gburl.js';
+import * as source from '../src/main.ts';
+const queryCases=[['a','a.html?a=1&b=2'],['a','?a=%E4%B8%AD%E6%96%87'],['a','?a=%ZZ'],['a'],['missing','?a=1']];
+const setCases=[[{a:'111'},'a.html?a=1&b=2'],[{a:'2'},'a.html'],[{a:'3'}]];
+const outcome=(api,method,args)=>{try{return {value:api[method](...args)}}catch(e){return {error:e.name}}};
+const rows=[];
+for(const [kind,api] of [['built ESM',built],['Vite source module',source]]) {
+  for(const args of queryCases) rows.push({kind,method:'queryParam',pass:JSON.stringify(outcome(api,'queryParam',args))===JSON.stringify(outcome(baseline,'queryParam',args))});
+  for(const args of setCases) rows.push({kind,method:'setParams',pass:JSON.stringify(outcome(api,'setParams',args))===JSON.stringify(outcome(baseline,'setParams',args))});
+}
+document.querySelector('#result').textContent=JSON.stringify({pass:rows.every(r=>r.pass),checks:rows.length,decoded:built.queryParam('a','?a=%E4%B8%AD%E6%96%87'),existingSetParamsOutcome:outcome(baseline,'setParams',setCases[0]),rows},null,2);
+</script>
