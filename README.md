@@ -65,3 +65,15 @@ setParams(
 ## License
 
 [MIT](./LICENSE) © 2022 [givebest](https://github.com/givebest)
+
+## Development
+
+Use the pinned package manager (`pnpm@10.34.7`) with Node.js 18.12+ on an even-numbered supported release (verified with Node.js 20.20.2):
+
+```sh
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm build
+pnpm test
+```
+
+`pnpm dev` binds to `127.0.0.1`. The build continues to publish the same ESM and UMD/CommonJS entry points and browser targets. Compatibility tests compare the rebuilt library with the pre-upgrade bundle, including existing behavior and errors; they do not certify that every pre-existing API bug is fixed. See `verification/REPORT.md` for the dependency repair evidence and limitations.
