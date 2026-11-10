@@ -68,7 +68,7 @@ setParams(
 
 ## Development
 
-Use the pinned package manager (`pnpm@10.34.7`) with Node.js 18.12+ on an even-numbered supported release (verified with Node.js 20.20.2):
+Use the pinned package manager (`pnpm@10.34.7`) with Node.js 18.12+ on an even-numbered supported release (CI uses Node.js 22):
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
@@ -77,3 +77,9 @@ pnpm test
 ```
 
 `pnpm dev` binds to `127.0.0.1`. The build continues to publish the same ESM and UMD/CommonJS entry points and browser targets. Compatibility tests compare the rebuilt library with the pre-upgrade bundle, including existing behavior and errors; they do not certify that every pre-existing API bug is fixed. See `verification/REPORT.md` for the dependency repair evidence and limitations.
+
+## CI and publishing
+
+Pushes and pull requests to `main` install the pinned pnpm dependencies with the frozen lockfile, build, and run regression tests on Node.js 22. They do not publish to npm.
+
+To publish intentionally, run the **Build and publish** workflow manually on `main` and enable its **publish** input. It defaults to false. First confirm the package version is ready and has not already been published; npm versions cannot be overwritten. Publishing requires the repository’s `NPM_TOKEN` secret. The workflow does not bump versions or create releases automatically.
